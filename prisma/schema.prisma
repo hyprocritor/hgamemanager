@@ -1,0 +1,199 @@
+// This is your Prisma schema file
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Game {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Core game info
+  originalName String  // Original name in native language
+  description String   // Original description in native language
+  type        GameType
+  releaseDate DateTime?
+  
+  // Relationships  
+  creators     CreatorGame[]
+  tags        GameTag[]
+  ratings     Rating[]
+  storeLinks  StoreLink[]
+  versions    GameVersion[]
+  localizations GameLocalization[]
+  installations Installation[]
+  saveLocations SaveLocation[]
+  covers      GameCover[]
+
+  @@index([type])
+}
+
+model GameCover {
+  id          String   @id @default(cuid())
+  game        Game     @relation(fields: [gameId], references: [id])
+  gameId      String
+  url         String
+  type        CoverType
+  width       Int
+  height      Int
+  size        Int      // File size in bytes
+  primary     Boolean  @default(false) // Is this the main cover?
+
+  @@index([gameId, type])
+}
+
+model Creator {
+  id          String   @id @default(cuid())
+  name        String
+  type        CreatorType
+  website     String?
+  games       CreatorGame[]
+
+  @@unique([name, type])
+  @@index([type])
+}
+
+model CreatorGame {
+  game      Game     @relation(fields: [gameId], references: [id])
+  gameId    String
+  creator   Creator  @relation(fields: [creatorId], references: [id])
+  creatorId String
+  role      String   // e.g. "Developer", "Publisher"
+
+  @@id([gameId, creatorId, role])
+}
+
+model Tag {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  games       GameTag[]
+}
+
+model GameTag {
+  game    Game   @relation(fields: [gameId], references: [id])
+  gameId  String
+  tag     Tag    @relation(fields: [tagId], references: [id])
+  tagId   String
+
+  @@id([gameId, tagId])
+}
+
+model Rating {
+  id          String   @id @default(cuid())
+  game        Game     @relation(fields: [gameId], references: [id])
+  gameId      String
+  score       Float
+  source      String   // e.g. "DLSite", "Steam"
+  reviewCount Int
+  
+  @@unique([gameId, source])
+}
+
+model StoreLink {
+  id          String    @id @default(cuid())
+  game        Game      @relation(fields: [gameId], references: [id])
+  gameId      String
+  store       StoreType
+  url         String
+  price       Float?
+  currency    String?
+  lastChecked DateTime?
+
+  @@unique([gameId, store])
+}
+
+model GameVersion {
+  id          String   @id @default(cuid())
+  game        Game     @relation(fields: [gameId], references: [id])
+  gameId      String
+  version     String
+  releaseDate DateTime
+  changelog   String
+  isActive    Boolean  @default(false)
+
+  @@unique([gameId, version])
+}
+
+model GameLocalization {
+  id          String   @id @default(cuid())
+  game        Game     @relation(fields: [gameId], references: [id])
+  gameId      String
+  language    String
+  name        String
+  description String?
+
+  @@unique([gameId, language])
+}
+
+model Installation {
+  id          String   @id @default(cuid())
+  game        Game     @relation(fields: [gameId], references: [id])
+  gameId      String
+  path        String
+  size        BigInt   // in bytes
+  installed   DateTime
+  lastPlayed  DateTime?
+  content     Json     // Additional installation details
+
+  @@unique([gameId, path])
+}
+
+model SaveLocation {
+  id          String   @id @default(cuid())
+  game        Game     @relation(fields: [gameId], references: [id])
+  gameId      String
+  path        String
+  type        SaveType
+  cloudSync   Boolean  @default(false)
+  lastSync    DateTime?
+
+  @@unique([gameId, path])
+}
+
+enum GameType {
+  RPG
+  VISUAL_NOVEL
+  ACTION
+  SIMULATION
+  STRATEGY
+  OTHER
+}
+
+enum CreatorType {
+  STUDIO
+  INDIVIDUAL
+  PUBLISHER
+  CIRCLE
+}
+
+enum StoreType {
+  DLSITE
+  DMM
+  STEAM
+  GOG
+  ITCH
+  OTHER
+}
+
+enum SaveType {
+  SAVE_FILE
+  SAVE_DIRECTORY
+  REGISTRY
+  CLOUD
+}
+
+enum CoverType {
+  MAIN        // Main cover art
+  THUMBNAIL   // Smaller version for lists/grids
+  BANNER      // Wide banner image (e.g. for Steam)
+  BACKGROUND  // Background art
+  LOGO        // Game logo
+  OTHER       // Other promotional images
+}

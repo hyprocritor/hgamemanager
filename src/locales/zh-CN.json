@@ -1,0 +1,106 @@
+{
+  "translation": {
+    "titleBar": {
+      "title": "游戏管理器"
+    },
+    "navBar": {
+      "gameList": "游戏列表",
+      "settings": "设置"
+    },
+    "import":{
+      "game":{
+        "basicInfo":{
+          "label":"基本信息",
+          "description":"游戏的基本内容数据。"
+        },
+        "generes":{
+          "label":"元信息",
+          "description":"游戏的类型。"
+        },
+        "media":{
+          "label":"媒体文件",
+          "description":"游戏的图片和视频。"
+        },
+        "installation":{
+          "label":"安装信息",
+          "description":"游戏的安装信息。"
+        },
+        "other":{
+          "label":"其他配置",
+          "description":"游戏的其他信息。"
+        }
+      }
+    },
+    "game":{
+        "fields":{
+          "originalName": {
+            "label": "名称",
+            "placeholder": "请输入原名",
+            "description": "游戏的原名，按照原始发行国的名字填写。"
+          },
+          "description":{
+            "label": "描述",
+            "placeholder": "请输入描述",
+            "description": "游戏的完整描述。"
+          },
+          "releaseDate":{
+            "label": "发布日期",
+            "placeholder": "请选择发布日期",
+            "description": "游戏的首次发行日期。"
+          },
+          "types":{
+            "label": "类型",
+            "placeholder": "请选择类型",
+            "description": "游戏的类型。",
+            "options":{
+              "rpg": "角色扮演",
+              "visualNovel": "视觉小说",
+              "action": "动作",
+              "simulation": "模拟",
+              "strategy": "策略",
+              "other": "其他"
+            }
+          }
+        }
+    },
+    "gameList": {
+      "title": "游戏列表",
+      "search": "搜索游戏",
+      "table": {
+        "name": "名称",
+        "type": "类型",
+        "releaseDate": "发布日期",
+        "description": "描述"
+      },
+      "noGames": "暂无游戏",
+      "addGame": "添加游戏",
+      "gameCenter": "游戏中心",
+      "viewMode": {
+        "grid": "网格",
+        "table": "表格"
+      },
+      "filterByType": "按类型筛选",
+      "types": {
+        "all": "所有类型",
+        "rpg": "角色扮演",
+        "visualNovel": "视觉小说",
+        "action": "动作",
+        "simulation": "模拟",
+        "strategy": "策略",
+        "other": "其他"
+      },
+      "loading": "加载中...",
+      "card": {
+        "releaseDate": "发布日期",
+        "developer": "开发者",
+        "noImage": "暂无图片"
+      }
+    },
+    "common": {
+      "edit": "编辑",
+      "delete": "删除",
+      "save": "保存",
+      "cancel": "取消"
+    }
+  }
+}
