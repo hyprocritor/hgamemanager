@@ -15,6 +15,7 @@ interface Window {
       getGame: (id: string) => Promise<any>;
       listGames: (params: any) => Promise<{ games: Prisma.Game[]; total: number }>;
       importGame: (data: any) => Promise<any>;
+      listTags: (params?: { search?: string }) => Promise<any>;
     };
     dialog: {
       showOpenDialog: (options: {

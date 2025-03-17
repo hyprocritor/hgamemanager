@@ -4,11 +4,29 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { BasicInfo } from "./BasicInfo"
 import { useForm } from '@mantine/form';
-import { Game } from "@prisma/client"
+import { GameType } from "@prisma/client"
+import { MetadataInfo } from "./MetdataInfo"
+import { GameFormValues } from "../../types/game"
+
 export const ImportGame = () => {
     const { t } = useTranslation()
     const [active, setActive] = useState('basic')
-    const form = useForm<Game>({})
+    const form = useForm<GameFormValues>({
+        initialValues: {
+            id: '',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            originalName: '',
+            description: '',
+            type: 'OTHER' as GameType,
+            releaseDate: null,
+            creators: [],
+            tags: [],
+            versions: [],
+            localizations: []
+        }
+    })
+
     return (
         <div className="h-[calc(100vh-120px)] ">
             <div className="flex justify-between items-center h-12">
@@ -17,7 +35,6 @@ export const ImportGame = () => {
                         <IconPlus width={32} height={32} color="#adb5bd" /> {t('gameList.addGame')}
                     </Title>
                 </div>
-
             </div>
             <Divider className="mt-4" />
             <div className="p-4 flex h-full flex-col">
@@ -47,9 +64,8 @@ export const ImportGame = () => {
 
                 <Card className="h-full" withBorder shadow="md" radius="md">
                     {active === 'basic' && <BasicInfo form={form} />}
-
+                    {active === 'generes' && <MetadataInfo form={form} />}
                 </Card>
-
             </div>
         </div>
     )

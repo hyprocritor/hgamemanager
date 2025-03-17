@@ -191,6 +191,25 @@ export class GameService {
     return { total, games };
   }
 
+  async listTags(params: {
+    search?: string;
+  } = {}) {
+    const { search } = params;
+
+    const where = search ? {
+      name: {
+        contains: search
+      }
+    } : {};
+
+    return prisma.tag.findMany({
+      where,
+      orderBy: {
+        name: 'asc'
+      }
+    });
+  }
+
   async importGame(data: GameImportInput) {
     // Verify the installation path exists
     try {

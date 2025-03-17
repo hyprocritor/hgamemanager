@@ -1,6 +1,5 @@
 import { TextInput, Text, Stack, Select } from "@mantine/core";
-import { UseForm, UseFormReturnType } from "@mantine/form/lib/types";
-import { Game } from "@prisma/client";
+import { UseFormReturnType } from "@mantine/form/lib/types";
 import { useTranslation } from "react-i18next";
 import { RichTextEditor, Link } from '@mantine/tiptap';
 import { useEditor } from '@tiptap/react';
@@ -11,7 +10,9 @@ import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
 import { DateInput } from '@mantine/dates';
-export const BasicInfo = ({ form }: { form: UseFormReturnType<Game> }) => {
+import { GameFormValues } from "../../types/game";
+
+export const BasicInfo = ({ form }: { form: UseFormReturnType<GameFormValues> }) => {
     const { t } = useTranslation()
     const editor = useEditor({
         extensions: [
@@ -39,35 +40,26 @@ export const BasicInfo = ({ form }: { form: UseFormReturnType<Game> }) => {
                 {...form.getInputProps('originalName')}
             />
             <div className="grid grid-cols-2 gap-4">
-                <DateInput label={t('game.fields.releaseDate.label')} description={t('game.fields.releaseDate.description')} {...form.getInputProps('releaseDate')} />
-                <Select withAsterisk
-                    data={[{
-                        label: t('game.fields.types.options.rpg'),
-                        value: 'RPG',
-                    },
-                    {
-                        label: t('game.fields.types.options.visualNovel'),
-                        value: 'visualNovel',
-                    },{
-                        label: t('game.fields.types.options.action'),
-                        value: 'action',
-                    },{
-                        label: t('game.fields.types.options.simulation'),
-                        value: 'simulation',
-                    },{
-                        label: t('game.fields.types.options.strategy'),
-                        value: 'strategy',
-                    },
-                    {
-                        label: t('game.fields.types.options.other'),
-                        value: 'other',
-                    },
-                
-                
-                ]}
+                <DateInput 
+                    label={t('game.fields.releaseDate.label')} 
+                    description={t('game.fields.releaseDate.description')} 
+                    {...form.getInputProps('releaseDate')} 
+                />
+                <Select 
+                    withAsterisk
+                    data={[
+                        { label: t('game.fields.types.options.rpg'), value: 'RPG' },
+                        { label: t('game.fields.types.options.visualNovel'), value: 'VISUAL_NOVEL' },
+                        { label: t('game.fields.types.options.action'), value: 'ACTION' },
+                        { label: t('game.fields.types.options.simulation'), value: 'SIMULATION' },
+                        { label: t('game.fields.types.options.strategy'), value: 'STRATEGY' },
+                        { label: t('game.fields.types.options.other'), value: 'OTHER' },
+                    ]}
                     label={t('game.fields.types.label')}
                     description={t('game.fields.types.description')}
-                    key={form.key('type')}></Select>
+                    key={form.key('type')}
+                    {...form.getInputProps('type')}
+                />
             </div>
 
             <div>

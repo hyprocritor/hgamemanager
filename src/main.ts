@@ -67,6 +67,15 @@ function setupGameHandlers() {
       throw error;
     }
   });
+
+  ipcMain.handle('game:listTags', async (_, params) => {
+    try {
+      return await gameService.listTags(params);
+    } catch (error) {
+      console.error('Failed to list tags:', error);
+      throw error;
+    }
+  });
 }
 
 // Initialize dialog handlers

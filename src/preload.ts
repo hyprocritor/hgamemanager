@@ -48,6 +48,9 @@ const gameAPI = {
 
   importGame: (data: any) =>
     ipcRenderer.invoke('game:import', data),
+    
+  listTags: (params?: { search?: string }) =>
+    ipcRenderer.invoke('game:listTags', params),
 };
 
 const dialog = {
